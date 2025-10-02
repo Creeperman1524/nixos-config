@@ -1,7 +1,7 @@
 # User configurations of ant for da-laptop
 
-{ config, hostname, ... }: {
-  imports = [ ../common ../features/cli ./home.nix ];
+{ config, hostname, inputs, ... }: {
+  imports = [ ../common ../features/cli ../features/desktop ./home.nix ];
 
   features = {
     cli = {
@@ -9,6 +9,7 @@
       nvim.enable = true;
       neofetch.enable = true;
     };
+    desktop = { hyprland.enable = false; };
   };
 }
 

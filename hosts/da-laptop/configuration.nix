@@ -27,5 +27,17 @@
     settings.PasswordAuthentication = false;
   };
 
+  # Enable hyprland
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  # };
+  #
+  # services.displayManager.sddm = {
+  #   enable = true;
+  #   wayland.enable = true;
+  #   enableHidpi = true;
+  # };
+
   environment.systemPackages = with pkgs; [ curl wget git vim ];
 }

@@ -27,6 +27,11 @@
     settings.PasswordAuthentication = false;
   };
 
+  # Enable sddm login screen
+  services.displayManager.sddm.enable = true;
+  # Enable plasma6
+  services.desktopManager.plasma6.enable = true;
+
   # Enable hyprland
   # programs.hyprland = {
   #   enable = true;

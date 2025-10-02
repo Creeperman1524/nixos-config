@@ -1,7 +1,13 @@
 # User configurations of ant for da-laptop
 
 { config, hostname, inputs, ... }: {
-  imports = [ ../common ../features/cli ../features/desktop ./home.nix ];
+  imports = [
+    inputs.plasma-manager.homeModules.plasma-manager
+    ../common
+    ../features/cli
+    ../features/desktop
+    ./home.nix
+  ];
 
   features = {
     cli = {
@@ -9,7 +15,10 @@
       nvim.enable = true;
       neofetch.enable = true;
     };
-    desktop = { hyprland.enable = false; };
+    desktop = {
+      kde.enable = true;
+      hyprland.enable = false;
+    };
   };
 }
 

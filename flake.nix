@@ -13,9 +13,16 @@
       url = "git+https://github.com/Creeperman1524/dotfiles.git";
       flake = false;
     };
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
-  outputs = { self, dotfiles, home-manager, nixpkgs, ... }@inputs:
+  outputs =
+    { self, dotfiles, home-manager, plasma-manager, nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
       systems = [ "x86_64-linux" ];

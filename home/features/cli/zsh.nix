@@ -31,6 +31,8 @@ in {
         edit-zsh = "nvim ~/.zshrc";
         rebuild =
           "sudo nixos-rebuild switch --flake /home/ant/nix#${osConfig.networking.hostName}";
+        update-dotfiles =
+          "sudo nix flake update dotfiles --flake /home/ant/nix";
       };
 
       initContent = ''eval "$(zoxide init --cmd cd zsh)" # replaces cd'';

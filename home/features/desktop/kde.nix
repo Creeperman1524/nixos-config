@@ -1,6 +1,6 @@
 # KDE user features
 
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 with lib;
 let
   cfg = config.features.desktop.kde;
@@ -12,7 +12,10 @@ in {
 
   config = mkIf cfg.enable {
 
-    programs.kitty.enable = true;
+    # Add alacritty configuration
+    home.file.".config/alacritty/" = {
+      source = "${inputs.dotfiles}/.config/alacritty/";
+    };
 
     # Thanks to https://github.com/AlexNabokikh/nix-config/
     home.packages = with pkgs; [
@@ -67,23 +70,13 @@ in {
       hotkeys.commands = {
         launch-alacritty = {
           name = "Launch Alacritty";
-          key = "Meta+Shift+Return";
+          key = "Meta+T";
           command = "alacritty";
         };
-        launch-brave = {
-          name = "Launch Brave";
-          key = "Meta+Shift+B";
+        launch-firefox = {
+          name = "Launch Firefox";
+          key = "Meta+F";
           command = "firefox";
-        };
-        launch-ocr = {
-          name = "Launch OCR";
-          key = "Alt+@";
-          command = "ocr";
-        };
-        launch-telegram = {
-          name = "Launch Telegram";
-          key = "Meta+Shift+T";
-          command = "Telegram";
         };
         move-window-and-focus-to-desktop-1 = {
           name = "Move Window and Focus to Desktop 1";
@@ -112,14 +105,14 @@ in {
         };
         screenshot-region = {
           name = "Capture a rectangular region of the screen";
-          key = "Meta+Shift+S";
+          key = "Ctrl+Shift+S";
           command = "spectacle --region --nonotify";
         };
-        screenshot-screen = {
-          name = "Capture the entire desktop";
-          key = "Meta+Ctrl+S";
-          command = "spectacle --fullscreen --nonotify";
-        };
+        # screenshot-screen = {
+        #   name = "Capture the entire desktop";
+        #   key = "Meta+Ctrl+S";
+        #   command = "spectacle --fullscreen --nonotify";
+        # };
       };
 
       input = {
@@ -226,23 +219,39 @@ in {
         }
         {
           alignment = "center";
-          height = 30;
+          height = 57;
           lengthMode = "fit";
           location = "top";
           opacity = "translucent";
+          hiding = "dodgewindows";
           widgets = [{
-            name = "org.kde.plasma.digitalclock";
+            name = "org.kde.plasma.icontasks";
             config = {
-              Appearance = {
-                autoFontAndSize = false;
-                customDateFormat = "ddd MMM d";
-                dateDisplayFormat = "BesideTime";
-                dateFormat = "custom";
-                fontSize = 11;
-                fontStyleName = "Regular";
-                fontWeight = 400;
-                use24hFormat = 0;
+              iconsOnly = true;
+              appearance = {
+                showTooltips = false;
+                highlightWindows = false;
+                indicateAudioStreams = true;
+                # rows.maximum = 1;
+                iconSpacing = "small";
               };
+              # The apps pinnned to the dock
+              launchers = [
+                "preferred://browser" # browser
+                "applications:org.kde.dolphin.desktop" # file manager
+                "applications:Alacritty.desktop" # terminal
+              ] ++ (if config.features.school.obsidian.enable then
+                [ "applications:obsidian.desktop" ] # obsidian
+              else
+                [ ]) ++ (if config.features.games.discord.enable then
+                  [ "applications:discord-ptb.desktop" ] # discord
+                else
+                  [ ]) ++ (if config.features.games.minecraft.enable then
+                    [
+                      "applications:org.prismlauncher.PrismLauncher.desktop"
+                    ] # prism launcher
+                  else
+                    [ ]);
             };
           }];
         }
@@ -252,33 +261,49 @@ in {
           lengthMode = "fit";
           location = "top";
           opacity = "translucent";
-          widgets = [{
-            systemTray = {
-              icons.scaleToFit = true;
-              items = {
-                showAll = false;
-                shown = [
-                  "org.kde.plasma.battery"
-                  "org.kde.plasma.networkmanagement"
-                  "org.kde.plasma.volume"
-                ];
-                hidden = [
-                  "org.kde.plasma.brightness"
-                  "org.kde.plasma.clipboard"
-                  "org.kde.plasma.devicenotifier"
-                  "org.kde.plasma.mediacontroller"
-                  "plasmashell_microphone"
-                  "xdg-desktop-portal-kde"
-                  "zoom"
-                ];
-                configs = {
-                  "org.kde.plasma.notifications".config = {
-                    Shortcuts = { global = "Meta+N"; };
+          widgets = [
+            {
+              systemTray = {
+                icons.scaleToFit = true;
+                items = {
+                  showAll = false;
+                  shown = [
+                    "org.kde.plasma.battery"
+                    "org.kde.plasma.networkmanagement"
+                    "org.kde.plasma.volume"
+                  ];
+                  hidden = [
+                    "org.kde.plasma.brightness"
+                    "org.kde.plasma.clipboard"
+                    "org.kde.plasma.devicenotifier"
+                    "org.kde.plasma.mediacontroller"
+                    "plasmashell_microphone"
+                    "xdg-desktop-portal-kde"
+                    "zoom"
+                  ];
+                  configs = {
+                    "org.kde.plasma.notifications".config = {
+                      Shortcuts = { global = "Meta+N"; };
+                    };
+                    battery.showPercentage = true;
                   };
                 };
               };
-            };
-          }];
+            }
+            {
+              name = "org.kde.plasma.digitalclock";
+              config = {
+                Appearance = {
+                  showDate = false;
+                  autoFontAndSize = false;
+                  fontSize = 11;
+                  fontStyleName = "Regular";
+                  fontWeight = 400;
+                  use24hFormat = "12h";
+                };
+              };
+            }
+          ];
         }
       ];
 
@@ -563,6 +588,7 @@ in {
         klaunchrc.FeedbackStyle.BusyCursor = false;
         klipperrc.General.MaxClipItems = 1000;
         kwinrc = {
+          MouseBindings.CommandAllKey = "Alt"; # Hold ALT to resize/move windows
           Effect-overview.BorderActivate = 9;
           Plugins = {
             krohnkiteEnabled = true;

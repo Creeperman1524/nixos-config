@@ -7,6 +7,8 @@ let
   wallpaper_path = "/home/ant/Pictures/sunset.jpg";
 in {
   options.features.desktop.kde.enable = mkEnableOption "KDE Plasma config";
+  options.features.desktop.kde.nightLight =
+    mkEnableOption "KDE Plasma night light setting";
 
   config = mkIf cfg.enable {
 
@@ -185,7 +187,7 @@ in {
         };
 
         # Nightlight
-        nightLight = {
+        nightLight = mkIf cfg.nightLight {
           enable = true;
           location.latitude = "40.71";
           location.longitude = "-74.01";

@@ -21,8 +21,10 @@
       kde = {
         enable = true;
         nightLight = false;
+        krunner = true; # KDE spotlight search
       };
       hyprland.enable = false;
+      rofi.enable = false; # system spotlight search
     };
     school = { obsidian.enable = true; };
     games = {

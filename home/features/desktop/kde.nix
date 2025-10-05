@@ -9,6 +9,8 @@ in {
   options.features.desktop.kde.enable = mkEnableOption "KDE Plasma config";
   options.features.desktop.kde.nightLight =
     mkEnableOption "KDE Plasma night light setting";
+  options.features.desktop.kde.krunner =
+    mkEnableOption "KDE Krunner (spotlight search) config";
 
   config = mkIf cfg.enable {
 
@@ -68,6 +70,11 @@ in {
       };
 
       hotkeys.commands = {
+        launcher-rofi = mkIf config.features.desktop.rofi.enable {
+          name = "Launch Rofi";
+          key = "Alt+Space";
+          command = "rofi -show drun";
+        };
         launch-alacritty = {
           name = "Launch Alacritty";
           key = "Meta+T";
@@ -146,7 +153,7 @@ in {
       };
 
       # Spotlight search
-      krunner = {
+      krunner = mkIf cfg.krunner {
         position = "center";
         activateWhenTypingOnDesktop = false;
       };
@@ -428,6 +435,10 @@ in {
         plasmashell = { "show-on-mouse-pos" = ""; };
 
         "services/org.kde.dolphin.desktop"."_launch" = "Meta+Shift+F";
+
+        # Disable krunner shortcut
+        "services/org.kde.krunner.desktop"."_launch" =
+          (if cfg.krunner then [ "Alt+Space" ] else [ "Alt+F2" ]);
       };
 
       spectacle = {

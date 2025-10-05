@@ -1,6 +1,2 @@
-{ pkgs, ... }: {
-  imports = [ ./kde.nix ./hyprland.nix ];
-
-  home.packages = with pkgs; [ ];
-}
+{ ... }: { imports = [ ./kde.nix ./hyprland.nix ./rofi.nix ]; }
 

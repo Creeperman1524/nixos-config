@@ -16,7 +16,10 @@ in {
 
     # Thanks to https://github.com/AlexNabokikh/nix-config/
     home.packages = with pkgs; [
+      # Browser
       firefox
+
+      # KDE specific
       (catppuccin-kde.override {
         flavour = [ "mocha" ];
         accents = [ "blue" ];
@@ -25,7 +28,11 @@ in {
       kdePackages.kcalc
       # kdePackages.krohnkite # tiling window manager
       kdotool
-      tela-circle-icon-theme
+
+      # Icons
+      # tela-circle-icon-theme
+      # monochrome-icons
+      beauty-line
     ];
 
     # For more information on each module: https://github.com/nix-community/plasma-manager/blob/trunk/modules/
@@ -399,12 +406,8 @@ in {
 
       shortcuts = {
         ksmserver = {
-          "Lock Session" = [ "Screensaver" "Ctrl+Alt+L" ];
-          "LogOut" = [ "Ctrl+Alt+Q" ];
-        };
-
-        "KDE Keyboard Layout Switcher" = {
-          "Switch to Next Keyboard Layout" = "Meta+Space";
+          "Lock Session" = [ "Screensaver" "Meta+L" ];
+          "LogOut" = [ "Meta+Shift+L" ];
         };
 
         kwin = {
@@ -413,12 +416,10 @@ in {
           "Switch to Desktop 2" = "Meta+2";
           "Switch to Desktop 3" = "Meta+3";
           "Switch to Desktop 4" = "Meta+4";
-          "Switch to Desktop 5" = "Meta+5";
-          "Switch to Desktop 6" = "Meta+6";
-          "Switch to Desktop 7" = "Meta+7";
           "Window Close" = "Meta+Q";
-          "Window Fullscreen" = "Meta+M";
-          "Window Move Center" = "Ctrl+Alt+C";
+          "Window Fullscreen" = "F11"; # No menu bar
+          "Window Maximize" = "Meta+Up"; # Still has menu bar
+          "Show Desktop" = "Meta+M";
         };
 
         plasmashell = { "show-on-mouse-pos" = ""; };
@@ -441,130 +442,21 @@ in {
         };
       };
 
-      window-rules = [
-        {
-          apply = {
-            noborder = {
-              value = true;
-              apply = "initially";
-            };
+      window-rules = [{
+        apply = {
+          noborder = {
+            value = true;
+            apply = "initially";
           };
-          description = "Hide titlebar by default";
-          match = {
-            window-class = {
-              value = ".*";
-              type = "regex";
-            };
+        };
+        description = "Hide titlebar by default";
+        match = {
+          window-class = {
+            value = ".*";
+            type = "regex";
           };
-        }
-        {
-          apply = {
-            desktops = "Desktop_1";
-            desktopsrule = "3";
-          };
-          description = "Assign Brave to Desktop 1";
-          match = {
-            window-class = {
-              value = "brave-browser";
-              type = "substring";
-            };
-            window-types = [ "normal" ];
-          };
-        }
-        {
-          apply = {
-            desktops = "Desktop_2";
-            desktopsrule = "3";
-          };
-          description = "Assign Alacritty to Desktop 2";
-          match = {
-            window-class = {
-              value = "Alacritty";
-              type = "substring";
-            };
-            window-types = [ "normal" ];
-          };
-        }
-        {
-          apply = {
-            desktops = "Desktop_3";
-            desktopsrule = "3";
-          };
-          description = "Assign Telegram to Desktop 3";
-          match = {
-            window-class = {
-              value = "org.telegram.desktop";
-              type = "substring";
-            };
-            window-types = [ "normal" ];
-          };
-        }
-        {
-          apply = {
-            desktops = "Desktop_4";
-            desktopsrule = "3";
-          };
-          description = "Assign OBS to Desktop 4";
-          match = {
-            window-class = {
-              value = "com.obsproject.Studio";
-              type = "substring";
-            };
-            window-types = [ "normal" ];
-          };
-        }
-        {
-          apply = {
-            desktops = "Desktop_4";
-            desktopsrule = "3";
-            fsplevel = "4";
-            fsplevelrule = "2";
-            minimizerule = "2";
-          };
-          description = "Assign Steam to Desktop 4";
-          match = {
-            window-class = {
-              value = "steam";
-              type = "exact";
-              match-whole = false;
-            };
-            window-types = [ "normal" ];
-          };
-        }
-        {
-          apply = {
-            desktops = "Desktop_5";
-            desktopsrule = "3";
-            fsplevel = "4";
-            fsplevelrule = "2";
-          };
-          description = "Assign Steam Games to Desktop 5";
-          match = {
-            window-class = {
-              value = "steam_app_";
-              type = "substring";
-              match-whole = false;
-            };
-          };
-        }
-        {
-          apply = {
-            desktops = "Desktop_5";
-            desktopsrule = "3";
-            fsplevel = "4";
-            fsplevelrule = "2";
-            minimizerule = "2";
-          };
-          description = "Assign Zoom to Desktop 5";
-          match = {
-            window-class = {
-              value = "zoom";
-              type = "substring";
-            };
-            window-types = [ "normal" ];
-          };
-        }
-      ];
+        };
+      }];
 
       workspace = {
         enableMiddleClickPaste = false;
@@ -572,7 +464,7 @@ in {
         colorScheme = "CatppuccinMochaBlue";
         cursor.theme = "Yaru";
         splashScreen.engine = "none";
-        splashScreen.theme = "Breeze";
+        splashScreen.theme = "none";
         tooltipDelay = 1;
         wallpaper = wallpaper_path;
       };
@@ -582,13 +474,14 @@ in {
         gwenviewrc.ThumbnailView.AutoplayVideos = true;
         kdeglobals = {
           General = { BrowserApplication = "firefox"; };
-          Icons = { Theme = "Tela-circle-dark"; };
+          Icons = { Theme = "beauty-line"; };
           KDE = { AnimationDurationFactor = 0.3; };
         };
         klaunchrc.FeedbackStyle.BusyCursor = false;
         klipperrc.General.MaxClipItems = 1000;
         kwinrc = {
-          MouseBindings.CommandAllKey = "Alt"; # Hold ALT to resize/move windows
+          MouseBindings.CommandAllKey =
+            "Meta"; # Hold ALT to resize/move windows
           Effect-overview.BorderActivate = 9;
           Plugins = {
             krohnkiteEnabled = true;

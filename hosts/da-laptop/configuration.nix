@@ -1,7 +1,14 @@
 # System configuration for the current machine
 { pkgs, ... }:
-
-{
+let
+  sddm-astronaut = pkgs.sddm-astronaut.override {
+    embeddedTheme = "black_hole"; # The name of the theme you most loved
+    # themeConfig = {
+    #   Background =
+    #     "path/to/background.jpg"; # This theme also accepts videos
+    # };
+  };
+in {
   imports = [ ./hardware-configuration.nix ];
 
   # Use the systemd-boot EFI boot loader.
@@ -28,8 +35,15 @@
   };
 
   # Enable sddm login screen
-  services.displayManager.sddm.enable = true;
-  # Enable plasma6
+  services.displayManager.sddm = {
+    enable = true;
+    extraPackages = with pkgs; [ sddm-astronaut ];
+
+    theme = "sddm-astronaut-theme";
+    settings = { Theme = { Current = "sddm-astronaut-theme"; }; };
+  };
+
+  # Enable plasma
   services.desktopManager.plasma6.enable = true;
 
   # Enable hyprland
@@ -44,5 +58,14 @@
   #   enableHidpi = true;
   # };
 
-  environment.systemPackages = with pkgs; [ curl wget git vim ];
+  services.journald.extraconfig = "systemmaxuse=100m";
+
+  environment.systemPackages = with pkgs; [
+    curl
+    wget
+    git
+    vim
+    sddm-astronaut
+    kdePackages.qtmultimedia
+  ];
 }

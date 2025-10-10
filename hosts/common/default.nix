@@ -49,5 +49,7 @@
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+
+  fonts.fontconfig.enable = true;
 }
 

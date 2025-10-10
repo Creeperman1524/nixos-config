@@ -16,6 +16,7 @@
       zsh.enable = true;
       nvim.enable = true;
       neofetch.enable = true;
+      alacritty.enable = true;
     };
     desktop = {
       kde = {

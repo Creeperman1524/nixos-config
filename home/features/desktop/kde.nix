@@ -1,6 +1,6 @@
 # KDE user features
 
-{ inputs, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 let
   cfg = config.features.desktop.kde;
@@ -14,15 +14,9 @@ in {
 
   config = mkIf cfg.enable {
 
-    # Add alacritty configuration
-    home.file.".config/alacritty/" = {
-      source = "${inputs.dotfiles}/.config/alacritty/";
-    };
-
     # Thanks to https://github.com/AlexNabokikh/nix-config/
     home.packages = with pkgs; [
       firefox
-      alacritty
       (catppuccin-kde.override {
         flavour = [ "mocha" ];
         accents = [ "blue" ];
@@ -75,7 +69,7 @@ in {
           key = "Alt+Space";
           command = "rofi -show drun";
         };
-        launch-alacritty = {
+        launch-alacritty = mkIf config.features.cli.alacritty.enable {
           name = "Launch Alacritty";
           key = "Meta+T";
           command = "alacritty";
@@ -246,19 +240,14 @@ in {
               launchers = [
                 "preferred://browser" # browser
                 "applications:org.kde.dolphin.desktop" # file manager
-                "applications:Alacritty.desktop" # terminal
-              ] ++ (if config.features.school.obsidian.enable then
-                [ "applications:obsidian.desktop" ] # obsidian
-              else
-                [ ]) ++ (if config.features.games.discord.enable then
-                  [ "applications:discord-ptb.desktop" ] # discord
-                else
-                  [ ]) ++ (if config.features.games.minecraft.enable then
-                    [
-                      "applications:org.prismlauncher.PrismLauncher.desktop"
-                    ] # prism launcher
-                  else
-                    [ ]);
+              ] ++ lib.optionals config.features.cli.alacritty.enable
+                [ "applications:Alacritty.desktop" ]
+                ++ lib.optionals config.features.school.obsidian.enable
+                [ "applications:obsidian.desktop" ]
+                ++ lib.optionals config.features.games.discord.enable
+                [ "applications:discord-ptb.desktop" ]
+                ++ lib.optionals config.features.games.minecraft.enable
+                [ "applications:org.prismlauncher.PrismLauncher.desktop" ];
             };
           }];
         }

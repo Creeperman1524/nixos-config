@@ -10,7 +10,7 @@ in {
   # If steam is enabled, apply these settings
   config = mkIf cfg.enable {
 
-    # Installs discord
+    # Installs steam
     home.packages = with pkgs; [ steam ];
   };
 }

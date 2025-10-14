@@ -58,7 +58,7 @@ in {
   #   enableHidpi = true;
   # };
 
-  services.journald.extraconfig = "systemmaxuse=100m";
+  services.journald.extraConfig = "SystemMaxUse=100M";
 
   environment.systemPackages = with pkgs; [
     curl

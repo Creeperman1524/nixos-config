@@ -11,7 +11,7 @@ in {
   config = mkIf cfg.enable {
 
     # Installs discord
-    home.packages = with pkgs; [ discord-ptb ];
+    home.packages = with pkgs; [ discord ];
   };
 }
 

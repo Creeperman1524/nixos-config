@@ -49,23 +49,23 @@ in {
           pointSize = 11;
         };
         general = {
-          family = "Roboto";
+          family = "JetBrainsMono Nerd Font Mono";
           pointSize = 11;
         };
         menu = {
-          family = "Roboto";
+          family = "JetBrainsMono Nerd Font Mono";
           pointSize = 11;
         };
         small = {
-          family = "Roboto";
+          family = "JetBrainsMono Nerd Font Mono";
           pointSize = 8;
         };
         toolbar = {
-          family = "Roboto";
+          family = "JetBrainsMono Nerd Font Mono";
           pointSize = 11;
         };
         windowTitle = {
-          family = "Roboto";
+          family = "JetBrainsMono Nerd Font Mono";
           pointSize = 11;
         };
       };
@@ -86,6 +86,17 @@ in {
           key = "Meta+F";
           command = "firefox";
         };
+        launch-discord = mkIf config.features.games.discord.enable {
+          name = "Launch Discord";
+          key = "Meta+D";
+          command = "discord";
+        };
+        launch-obsidian = mkIf config.features.school.obsidian.enable {
+          name = "Launch Obsidian";
+          key = "Meta+O";
+          command = "obsidian";
+        };
+
         move-window-and-focus-to-desktop-1 = {
           name = "Move Window and Focus to Desktop 1";
           key = "Meta+!";
@@ -252,7 +263,7 @@ in {
                 ++ lib.optionals config.features.school.obsidian.enable
                 [ "applications:obsidian.desktop" ]
                 ++ lib.optionals config.features.games.discord.enable
-                [ "applications:discord-ptb.desktop" ]
+                [ "applications:discord.desktop" ]
                 ++ lib.optionals config.features.games.minecraft.enable
                 [ "applications:org.prismlauncher.PrismLauncher.desktop" ];
             };

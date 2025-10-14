@@ -10,7 +10,7 @@ in {
   # If minecraft is enabled, apply these settings
   config = mkIf cfg.enable {
 
-    # Installs discord
+    # Installs prism
     home.packages = with pkgs; [ prismlauncher ];
   };
 }

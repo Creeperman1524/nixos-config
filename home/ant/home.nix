@@ -11,6 +11,17 @@
   home.username = lib.mkDefault "ant";
   home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
+  # Clone our dotfiles on every login, checking if the directory has already been made
+  # These are then symlinked to their respective places in $HOME
+  home.activation.cloneDotfiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    DOTFILES="$HOME/.dotfiles"
+
+    if [ ! -d "$DOTFILES/.git" ]; then
+      echo "Cloning dotfiles repository..."
+      ${pkgs.git}/bin/git clone https://github.com/Creeperman1524/dotfiles.git "$DOTFILES"
+    fi
+  '';
+
   # User packages
   home.packages = with pkgs; [ ];
 

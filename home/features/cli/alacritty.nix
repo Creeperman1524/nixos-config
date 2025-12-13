@@ -1,8 +1,8 @@
 # Alacritty feature
 
-{ config, lib, inputs, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
-let cfg = config.features.cli.nvim;
+let cfg = config.features.cli.alacritty;
 in {
   options.features.cli.alacritty.enable =
     mkEnableOption "Enable alacritty configuration";
@@ -11,8 +11,9 @@ in {
   config = mkIf cfg.enable {
 
     # Adds the alacritty dotfiles
-    home.file.".config/alacritty/" = {
-      source = "${inputs.dotfiles}/.config/alacritty/";
+    home.file.".config/alacritty" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/.config/alacritty";
     };
 
     # Installs alacritty and its fonts

@@ -12,8 +12,8 @@ in {
 
     # Adds our dotfiles
     home.file.".config/neofetch" = {
-      source = "${inputs.dotfiles}/.config/neofetch";
-      recursive = true;
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/.config/neofetch";
     };
 
     # Installs neofetch

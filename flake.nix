@@ -9,12 +9,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
-    # My personal dotfiles
-    dotfiles = {
-      url = "git+https://github.com/Creeperman1524/dotfiles.git";
-      flake = false;
-    };
-
     # KDE nixos-manager
     plasma-manager = {
       url = "github:nix-community/plasma-manager";

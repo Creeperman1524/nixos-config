@@ -12,8 +12,8 @@ in {
 
     ### Removed: made zsh completely declarative (this diverges from the .dotfiles) ###
     # Adds our dotfiles
-    # home.file.".zshrc.local" = { source = "${inputs.dotfiles}/.zshrc"; };
-    # home.file.".p10k.zsh" = { source = "${inputs.dotfiles}/.p10k.zsh"; };
+    # home.file.".zshrc.local" = { source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.zshrc"; };
+    # home.file.".p10k.zsh" = { source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}./dotfiles/.p10k.zsh"; };
 
     # Creates a nix managed .zshrc rather than our dotfile
     programs.zsh = {

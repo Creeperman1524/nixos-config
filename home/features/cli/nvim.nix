@@ -11,8 +11,8 @@ in {
 
     # Adds our dotfiles
     home.file.".config/nvim" = {
-      source = "${inputs.dotfiles}/.config/nvim";
-      recursive = true;
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/.config/nvim";
     };
 
     # Installs all necessary packages

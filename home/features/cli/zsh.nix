@@ -31,6 +31,7 @@ in {
         edit-zsh = "nvim ~/.zshrc";
         rebuild =
           "sudo nixos-rebuild switch --flake /home/ant/nix#${osConfig.networking.hostName}";
+        remove-old = "sudo nix-collect-garbage --delete-old";
         update-dotfiles =
           "sudo nix flake update dotfiles --flake /home/ant/nix";
       };

@@ -1,7 +1,8 @@
 # Common configuration for all hosts
 
 { lib, inputs, outputs, pkgs, ... }: {
-  imports = [ ./users inputs.home-manager.nixosModules.home-manager ];
+  imports =
+    [ ./features ./users inputs.home-manager.nixosModules.home-manager ];
   home-manager = {
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs outputs; };

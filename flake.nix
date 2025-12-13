@@ -9,20 +9,28 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    # My personal dotfiles
     dotfiles = {
       url = "git+https://github.com/Creeperman1524/dotfiles.git";
       flake = false;
     };
 
+    # KDE nixos-manager
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    # End4
+    illogical-flake = {
+      url = "github:soymou/illogical-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    { self, dotfiles, home-manager, plasma-manager, nixpkgs, ... }@inputs:
+  outputs = { self, dotfiles, home-manager, plasma-manager, illogical-flake
+    , nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
       systems = [ "x86_64-linux" ];
@@ -36,7 +44,7 @@
         # This is what #da-laptop points to
         da-laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/da-laptop ];
+          modules = [ ./shared/da-laptop.nix ./hosts/da-laptop ];
         };
       };
 
@@ -44,7 +52,7 @@
         "ant@da-laptop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home/ant/da-laptop.nix ];
+          modules = [ ./shared/da-laptop.nix ./home/ant/da-laptop.nix ];
         };
       };
     };

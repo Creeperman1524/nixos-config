@@ -1,18 +1,18 @@
-# KDE user features
+# This is for home-manager user-level configuruation of kde-plasma
 
 { config, lib, pkgs, ... }:
 with lib;
 let
   cfg = config.features.desktop.kde;
+  isEnabled = config.features.desktop.type == "kde";
   wallpaper_path = "/home/ant/Pictures/sunset.jpg";
 in {
-  options.features.desktop.kde.enable = mkEnableOption "KDE Plasma config";
   options.features.desktop.kde.nightLight =
     mkEnableOption "KDE Plasma night light setting";
   options.features.desktop.kde.krunner =
     mkEnableOption "KDE Krunner (spotlight search) config";
 
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
 
     # Thanks to https://github.com/AlexNabokikh/nix-config/
     home.packages = with pkgs; [

@@ -1,10 +1,10 @@
+# This is for home-manager user-level configuruation of hyprland
+
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.features.desktop.hyprland;
+let isEnabled = config.features.desktop.type == "hyprland";
 in {
-  options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     home.packages = with pkgs; [
       waybar
       rofi

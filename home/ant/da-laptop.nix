@@ -3,6 +3,7 @@
 { config, hostname, inputs, ... }: {
   imports = [
     inputs.plasma-manager.homeModules.plasma-manager
+    inputs.illogical-flake.homeManagerModules.default
     ../common
     ../features/cli
     ../features/desktop
@@ -18,13 +19,12 @@
       neofetch.enable = true;
       alacritty.enable = true;
     };
+    # Desktop environments are set system-wide in /shared/HOST
     desktop = {
       kde = {
-        enable = true;
         nightLight = false;
         krunner = true; # KDE spotlight search
       };
-      hyprland.enable = false;
       rofi.enable = false; # system spotlight search
     };
     school = { obsidian.enable = true; };

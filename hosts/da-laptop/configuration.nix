@@ -1,5 +1,5 @@
 # System configuration for the current machine
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
   sddm-astronaut = pkgs.sddm-astronaut.override {
     embeddedTheme = "black_hole"; # The name of the theme you most loved
@@ -37,21 +37,13 @@ in {
   # Enable sddm login screen
   services.displayManager.sddm = {
     enable = true;
+    wayland.enable = true;
     extraPackages = with pkgs; [ sddm-astronaut ];
 
     theme = "sddm-astronaut-theme";
     settings = { Theme = { Current = "sddm-astronaut-theme"; }; };
   };
 
-  # Enable plasma
-  services.desktopManager.plasma6.enable = true;
-
-  # Enable hyprland
-  # programs.hyprland = {
-  #   enable = true;
-  #   xwayland.enable = true;
-  # };
-  #
   # services.displayManager.sddm = {
   #   enable = true;
   #   wayland.enable = true;

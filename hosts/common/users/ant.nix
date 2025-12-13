@@ -32,7 +32,11 @@
     packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
   };
 
-  home-manager.users.ant =
-    import ../../../home/ant/${config.networking.hostName}.nix;
+  home-manager.users.ant = {
+    imports = [
+      ../../../shared/${config.networking.hostName}.nix
+      ../../../home/ant/${config.networking.hostName}.nix
+    ];
+  };
 }
 

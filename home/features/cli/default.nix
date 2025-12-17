@@ -32,6 +32,20 @@
   programs.fzf.enable = true;
 
   # Core cli utilities
-  home.packages = with pkgs; [ coreutils htop openssl ripgrep tldr which zip ];
-}
+  home.packages = with pkgs; [
+    coreutils
+    htop
+    openssl
+    ripgrep
+    tldr
+    tmux
+    which
+    zip
+  ];
 
+  # Symlink tmux dotfiles 
+  home.file.".tmux.conf" = {
+    source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/.dotfiles/.tmux.conf";
+  };
+}

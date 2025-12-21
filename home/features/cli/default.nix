@@ -1,6 +1,6 @@
 # Default features that are always enabled
 
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   imports = [ ./zsh.nix ./nvim.nix ./neofetch.nix ./alacritty.nix ];
 
   # Better cd 

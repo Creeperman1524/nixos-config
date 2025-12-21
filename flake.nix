@@ -23,7 +23,7 @@
     };
   };
 
-  outputs = { self, dotfiles, home-manager, plasma-manager, illogical-flake
+  outputs = { self, home-manager, plasma-manager, illogical-flake
     , nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
@@ -40,6 +40,12 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./shared/da-laptop.nix ./hosts/da-laptop ];
         };
+
+        # This is what #da-desktop points to
+        da-desktop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./shared/da-desktop.nix ./hosts/da-desktop ];
+        };
       };
 
       homeConfigurations = {
@@ -47,6 +53,11 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./shared/da-laptop.nix ./home/ant/da-laptop.nix ];
+        };
+        "ant@da-desktop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./shared/da-desktop.nix ./home/ant/da-desktop.nix ];
         };
       };
     };

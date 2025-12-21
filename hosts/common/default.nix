@@ -4,6 +4,7 @@
   imports =
     [ ./features ./users inputs.home-manager.nixosModules.home-manager ];
   home-manager = {
+    backupFileExtension = "backup";
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs outputs; };
   };

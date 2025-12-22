@@ -74,7 +74,7 @@ in {
         launcher-rofi = mkIf config.features.desktop.rofi.enable {
           name = "Launch Rofi";
           key = "Alt+Space";
-          command = "rofi -show drun";
+          command = "/home/ant/.config/rofi/launcher.sh";
         };
         launch-alacritty = mkIf config.features.cli.alacritty.enable {
           name = "Launch Alacritty";
@@ -499,7 +499,7 @@ in {
             screenedgeEnabled = false;
           };
           "Round-Corners" = {
-            ActiveOutlineAlpha = 255;
+            ActiveOutlineAlpha = 0;
             ActiveOutlineUseCustom = false;
             ActiveOutlineUsePalette = true;
             DisableOutlineTile = false;
@@ -507,7 +507,7 @@ in {
             InactiveCornerRadius = 8;
             InactiveOutlineAlpha = 0;
             InactiveSecondOutlineThickness = 0;
-            OutlineThickness = 1;
+            OutlineThickness = 0;
             SecondOutlineThickness = 0;
             Size = 8;
           };

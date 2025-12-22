@@ -23,9 +23,9 @@
     desktop = {
       kde = {
         nightLight = false;
-        krunner = true; # KDE spotlight search
+        krunner = false; # KDE spotlight search
       };
-      rofi.enable = false; # system spotlight search
+      rofi.enable = true; # system spotlight search
     };
     school = { obsidian.enable = false; };
     games = {

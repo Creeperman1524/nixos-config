@@ -35,14 +35,15 @@ in {
   };
 
   # Enable sddm login screen
-  # services.displayManager.sddm = {
-  #   enable = true;
-  #   wayland.enable = true;
-  #   extraPackages = with pkgs; [ sddm-astronaut ];
-  #
-  #   theme = "sddm-astronaut-theme";
-  #   settings = { Theme = { Current = "sddm-astronaut-theme"; }; };
-  # };
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+	enableHidpi = true;
+    extraPackages = with pkgs; [ sddm-astronaut ];
+
+    theme = "sddm-astronaut-theme";
+    settings = { Theme = { Current = "sddm-astronaut-theme"; }; };
+  };
 
   # services.displayManager.sddm = {
   #   enable = true;

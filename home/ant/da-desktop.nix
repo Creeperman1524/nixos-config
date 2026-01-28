@@ -17,7 +17,8 @@
       zsh.enable = true;
       nvim.enable = true;
       neofetch.enable = true;
-      alacritty.enable = true;
+      alacritty.enable = false;
+      kitty.enable = true;
     };
     # Desktop environments are set system-wide in /shared/HOST
     desktop = {

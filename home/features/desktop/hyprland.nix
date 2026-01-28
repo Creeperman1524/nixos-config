@@ -19,9 +19,14 @@ in {
       hyprlock
     ];
 
-    programs.kitty.enable = true;
+    # Adds the hyprland dotfiles
+    home.file.".config/hypr" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/.config/hypr";
+    };
 
-    # Disabled to keep Home Manager from touching the hyprland config files
+    # Disabled to keep Home Manager from touching the config files
+    # programs.kitty.enable = true;
     # wayland.windowManager.hyprland = { enable = true; };
   };
 }

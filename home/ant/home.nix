@@ -13,6 +13,10 @@
 
   # Clone our dotfiles on every login, checking if the directory has already been made
   # These are then symlinked to their respective places in $HOME
+
+  # TODO: this has to be changed to use SSH keys to clone, so that it can be pushed using it when updating them
+  # However, the origin can manually be changed by usingh
+  # git remote set-url origin git@github.com:Creeperman1524/dotfiles.git
   home.activation.cloneDotfiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     DOTFILES="$HOME/.dotfiles"
 

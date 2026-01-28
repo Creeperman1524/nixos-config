@@ -1,7 +1,7 @@
 # Default features that are always enabled
 
 { config, pkgs, ... }: {
-  imports = [ ./zsh.nix ./nvim.nix ./neofetch.nix ./alacritty.nix ];
+  imports = [ ./zsh.nix ./nvim.nix ./neofetch.nix ./alacritty.nix ./kitty.nix ];
 
   # Better cd 
   programs.zoxide = {

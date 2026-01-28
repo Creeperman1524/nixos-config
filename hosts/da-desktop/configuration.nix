@@ -24,9 +24,10 @@ in {
   # Enables us to use flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # For virtual box
-  virtualisation.virtualbox.guest.enable = true;
-  networking.nameservers = [ "8.8.8.8" ];
+  # NVIDIA graphics drivers
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;
 
   services.openssh = {
     enable = true;

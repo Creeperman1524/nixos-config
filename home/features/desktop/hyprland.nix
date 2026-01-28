@@ -21,7 +21,8 @@ in {
 
     programs.kitty.enable = true;
 
-    wayland.windowManager.hyprland = { enable = true; };
+    # Disabled to keep Home Manager from touching the hyprland config files
+    # wayland.windowManager.hyprland = { enable = true; };
   };
 }
 

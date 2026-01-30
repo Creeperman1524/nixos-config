@@ -44,8 +44,46 @@
   ];
 
   # Symlink tmux dotfiles 
-  home.file.".tmux.conf" = {
+  home.file.".tmuxDotfiles.conf" = {
     source = config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/.dotfiles/.tmux.conf";
   };
+
+  # Setup tmux plugins through home manager
+  programs.tmux = {
+    enable = true;
+
+    plugins = with pkgs.tmuxPlugins; [
+      vim-tmux-navigator
+      {
+        plugin = catppuccin;
+        extraConfig = ''
+          set -g @plugin 'catppuccin/tmux#v2.1.3'
+          set -g @catppuccin_flavour 'mocha'
+          set -g @catppuccin_window_status_style "basic"
+          set -g @catppuccin_window_text ' #W'
+          set -g @catppuccin_window_current_text ' #W'
+          set -g @catppuccin_status_background "#{@thm_bg}"
+          set -g @catppuccin_window_current_number_color "#{@thm_blue}"
+        '';
+      }
+      {
+        plugin = resurrect;
+        extraConfig = ''
+          set -g @resurrect-capture-pane-contents 'off' # Saves the contents of the panes
+          set -g @resurrect-processes 'ssh' # Saves ssh sessions
+        '';
+      }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on' # Restores tmux sessions on startup
+          set -g @continuum-boot 'on' # Restores tmux on boot
+        '';
+      }
+    ];
+
+    extraConfig = "source-file ~/.tmuxDotfiles.conf";
+  };
+
 }

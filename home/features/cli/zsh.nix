@@ -13,7 +13,13 @@ in {
     ### Removed: made zsh completely declarative (this diverges from the .dotfiles) ###
     # Adds our dotfiles
     # home.file.".zshrc.local" = { source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.zshrc"; };
-    # home.file.".p10k.zsh" = { source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}./dotfiles/.p10k.zsh"; };
+    home.file.".p10k.zsh" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/.p10k.zsh";
+    };
+
+    # Add powerlevel10k package
+    home.packages = with pkgs; [ zsh-powerlevel10k ];
 
     # Creates a nix managed .zshrc rather than our dotfile
     programs.zsh = {
@@ -36,7 +42,16 @@ in {
           "sudo nix flake update dotfiles --flake /home/ant/nix";
       };
 
-      initContent = ''eval "$(zoxide init --cmd cd zsh)" # replaces cd'';
+      plugins = [{
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }];
+
+      initContent = ''
+        eval "$(zoxide init --cmd cd zsh)" # replaces cd
+        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+      '';
 
       # initContent = ''
       #   # Source the custom dotfiles
